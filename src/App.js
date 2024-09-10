@@ -1,4 +1,3 @@
-
 function App() {
   return (
     <div className="wrapper clear">
@@ -13,7 +12,8 @@ function App() {
         <ul className="d-flex">
           <li className="mr-30">
             <img width={18} height={18} src="/img/cart.svg" alt="cart" />
-            <span className="opacity-5">1205 руб.</span></li>
+            <span className="opacity-5">1205 руб.</span>
+          </li>
           <li>
             <img width={18} height={18} src="/img/user.svg" alt="user" />
           </li>
@@ -77,9 +77,7 @@ function App() {
         </div>
       </div>
     </div>
-
   );
 }
 
 export default App;
-
