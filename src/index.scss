@@ -126,6 +126,7 @@ header {
   }
   .cartItems {
     flex: 1;
+    overflow: auto;
   }
 }
 
@@ -150,18 +151,12 @@ header {
   b {
     font-size: 14px;
   }
-  .remove-btn {
-    opacity: 0.5;
-    transition: opacity 0.15s ease-in-out;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 
 .CartTotalBlock {
+  ul {
+    margin: 20px 0;
+  }
   li {
     display: flex;
     margin-bottom: 20px;
@@ -172,5 +167,47 @@ header {
     position: relative;
     top: -4px;
     margin: 0 10px;
+  }
+  .greenBtn {
+    position: relative;
+    &:hover {
+      img {
+        transform: translateX(5px);
+      }
+    }
+
+    img {
+      position: absolute;
+      right: 30px;
+      top: 20px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
+.remove-btn {
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+.greenBtn {
+  background-color: #9dd458;
+  width: 325px;
+  height: 55px;
+  border-radius: 18px;
+  border: none;
+  font-size: 16px;
+  color: #f4f4f4;
+  transition: background 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: lighten($color: #9dd458, $amount: 5%);
+  }
+  &:active {
+    background: darken($color: #9dd458, $amount: 5%);
   }
 }

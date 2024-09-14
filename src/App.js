@@ -3,7 +3,12 @@ function App() {
     <div className="wrapper clear">
       <div className="overlay">
         <div className="drawer">
-          <h2 className="mb-30">Корзина</h2>
+          <h2 className="mb-30 d-flex justify-between">
+            Корзина
+            <div className="remove-btn">
+              <img src="/img/btn-remove.svg" alt="Remove" />
+            </div>
+          </h2>
 
           <div className="cartItems">
             <div className="cartItem d-flex align-center">
@@ -16,7 +21,6 @@ function App() {
                 <img src="/img/btn-remove.svg" alt="Remove" />
               </div>
             </div>
-
             <div className="cartItem d-flex align-center">
               <div className="cartItemImg" style={{ backgroundImage: 'url(/img/sneakers/1.1.jpg)' }}></div>
               <div className="mr-20 flex">
@@ -29,18 +33,24 @@ function App() {
             </div>
           </div>
 
-          <ul className="CartTotalBlock">
-            <li>
-              <span>Итого: </span>
-              <div></div>
-              <b>21 498 руб.</b>
-            </li>
-            <li>
-              <span>Налог 5%:</span>
-              <div></div>
-              <b>1 074 руб. </b>
-            </li>
-          </ul>
+          <div className="CartTotalBlock">
+            <ul>
+              <li>
+                <span>Итого: </span>
+                <div></div>
+                <b>21 498 руб.</b>
+              </li>
+              <li>
+                <span>Налог 5%:</span>
+                <div></div>
+                <b>1 074 руб. </b>
+              </li>
+            </ul>
+
+            <button className="greenBtn">
+              Оформить заказ <img src="/img/arrow.svg" alt="arrow" />
+            </button>
+          </div>
         </div>
       </div>
 
