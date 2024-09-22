@@ -16,6 +16,10 @@ function App() {
       });
   }, []);
 
+  const onAddToCart = (obj) => {
+    setCartItems((prev) => [...prev, obj]);
+  };
+
   return (
     <div className="wrapper clear">
       {isCartOpened && <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} />}
@@ -31,7 +35,13 @@ function App() {
         </div>
         <div className="d-flex flex-wrap">
           {items.map((item) => (
-            <Card image={item.imageUrl} title={item.title} price={item.price} />
+            <Card
+              imageUrl={item.imageUrl}
+              title={item.title}
+              price={item.price}
+              onPlus={onAddToCart}
+              onFavorite={() => console.log('Нажали like')}
+            />
           ))}
         </div>
       </div>
