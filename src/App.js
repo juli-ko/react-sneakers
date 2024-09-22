@@ -1,12 +1,25 @@
+import React from 'react';
 import Card from './components/Card';
 import Header from './components/Header';
 import CartDrawer from './components/CartDrawer';
 
 function App() {
+  const [isCartOpened, setCartOpened] = React.useState(false);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items')
+      .then((res) => res.json())
+      .then((json) => {
+        setItems(json);
+      });
+  }, []);
+
   return (
     <div className="wrapper clear">
-      <CartDrawer />
-      <Header />
+      {isCartOpened && <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} />}
+      <Header onClickCart={() => setCartOpened(true)} />
 
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
@@ -16,11 +29,10 @@ function App() {
             <input placeholder="Поиск..." type="text" />
           </div>
         </div>
-        <div className="d-flex">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+        <div className="d-flex flex-wrap">
+          {items.map((item) => (
+            <Card image={item.imageUrl} title={item.title} price={item.price} />
+          ))}
         </div>
       </div>
     </div>
