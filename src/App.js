@@ -6,6 +6,7 @@ import CartDrawer from './components/CartDrawer';
 function App() {
   const [isCartOpened, setCartOpened] = React.useState(false);
   const [cartItems, setCartItems] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState('');
   const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
@@ -20,6 +21,10 @@ function App() {
     setCartItems((prev) => [...prev, obj]);
   };
 
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
     <div className="wrapper clear">
       {isCartOpened && <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} />}
@@ -27,22 +32,28 @@ function App() {
 
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
-          <h1>Все кроссовки</h1>
+          <h1>{searchValue ? `Поиск по запросу: ${searchValue}` : 'Все кроссовки'}</h1>
           <div className="search-block">
             <img src="/img/search-icon.svg" alt="search" />
-            <input placeholder="Поиск..." type="text" />
+            {searchValue && (
+              <img className="clear" src="/img/btn-remove.svg" alt="Clear" onClick={() => setSearchValue('')} />
+            )}
+            <input placeholder="Поиск..." type="text" onChange={onChangeSearchInput} value={searchValue} />
           </div>
         </div>
         <div className="d-flex flex-wrap">
-          {items.map((item) => (
-            <Card
-              imageUrl={item.imageUrl}
-              title={item.title}
-              price={item.price}
-              onPlus={onAddToCart}
-              onFavorite={() => console.log('Нажали like')}
-            />
-          ))}
+          {items
+            .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+            .map((item, index) => (
+              <Card
+                key={index}
+                imageUrl={item.imageUrl}
+                title={item.title}
+                price={item.price}
+                onPlus={onAddToCart}
+                onFavorite={() => console.log('Нажали like')}
+              />
+            ))}
         </div>
       </div>
     </div>

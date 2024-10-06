@@ -10,7 +10,7 @@ function CartDrawer(props) {
         </h2>
 
         <div className="cartItems">
-          {props.items.map((item) => (
+          {props.items.map((item, index) => (
             <div className="cartItem d-flex align-center">
               <div className="cartItemImg" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
               <div className="mr-20 flex">
