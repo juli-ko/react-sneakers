@@ -15,22 +15,32 @@ function App() {
 
   React.useEffect(() => {
     axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items').then((res) => setItems(res.data));
-    axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart').then((res) => setCartItems(res.data));
+    // axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart').then((res) => setCartItems(res.data));
   }, []);
 
   const onAddToCart = (obj) => {
     setCartItems((prev) => [...prev, obj]);
-    axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart', obj);
+    // axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart', obj);
   };
 
   const onRemoveFromCart = (id) => {
-    axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
+    // axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const addToFavorite = (obj) => {
-    setFavorite((prev) => [...prev, obj]);
-    // axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites', obj)
+  const addToFavorite = async (obj) => {
+    try {
+      axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites').then((res) => console.log(res));
+      if (favorites.find((item) => item.id === obj.id)) {
+        axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites/${obj.id}`);
+        setFavorite((prev) => prev.filter((item) => item.id !== obj.id));
+      } else {
+        const { data } = await axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites', obj);
+        setFavorite((prev) => [...prev, data]);
+      }
+    } catch (err) {
+      alert('Не удалось добавить в фавориты');
+    }
   };
 
   const onChangeSearchInput = (event) => {
@@ -58,7 +68,10 @@ function App() {
             />
           }
         />
-        <Route path="/favorites" element={<Favorites favorites={favorites} />} />
+        <Route
+          path="/favorites"
+          element={<Favorites favorites={favorites} onAddToCart={onAddToCart} addToFavorite={addToFavorite} />}
+        />
       </Routes>
     </div>
   );

@@ -1,23 +1,15 @@
 import Card from '../components/Card';
 
-function Favorites({ favorites }) {
+function Favorites({ favorites, onAddToCart, addToFavorite }) {
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
         <h1>Мои любимчики</h1>
       </div>
       <div className="d-flex flex-wrap">
-        {/* {items
-          .map((item, index) => (
-            <Card
-              key={index}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              price={item.price}
-              onPlus={onAddToCart}
-              onFavorite={addToFavorite}
-            />
-          ))} */}
+        {favorites.map((item, index) => (
+          <Card key={index} onPlus={onAddToCart} onFavorite={addToFavorite} liked={true} {...item} />
+        ))}
       </div>
     </div>
   );
