@@ -1,8 +1,10 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import Card from './components/Card';
 import Header from './components/Header';
 import CartDrawer from './components/CartDrawer';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 function App() {
   const [isCartOpened, setCartOpened] = React.useState(false);
@@ -41,33 +43,23 @@ function App() {
         <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} onRemoveFromCart={onRemoveFromCart} />
       )}
       <Header onClickCart={() => setCartOpened(true)} onClickFav={() => console.log('open fav')} />
-
-      <div className="content p-40">
-        <div className="d-flex align-center justify-between mb-40">
-          <h1>{searchValue ? `Поиск по запросу: ${searchValue}` : 'Все кроссовки'}</h1>
-          <div className="search-block">
-            <img src="/img/search-icon.svg" alt="search" />
-            {searchValue && (
-              <img className="clear" src="/img/btn-remove.svg" alt="Clear" onClick={() => setSearchValue('')} />
-            )}
-            <input placeholder="Поиск..." type="text" onChange={onChangeSearchInput} value={searchValue} />
-          </div>
-        </div>
-        <div className="d-flex flex-wrap">
-          {items
-            .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-            .map((item, index) => (
-              <Card
-                key={index}
-                imageUrl={item.imageUrl}
-                title={item.title}
-                price={item.price}
-                onPlus={onAddToCart}
-                onFavorite={addToFavorite}
-              />
-            ))}
-        </div>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              items={items}
+              favorites={favorites}
+              searchValue={searchValue}
+              onAddToCart={onAddToCart}
+              onChangeSearchInput={onChangeSearchInput}
+              addToFavorite={addToFavorite}
+              setSearchValue={setSearchValue}
+            />
+          }
+        />
+        <Route path="/favorites" element={<Favorites favorites={favorites} />} />
+      </Routes>
     </div>
   );
 }
