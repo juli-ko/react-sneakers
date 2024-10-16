@@ -12,8 +12,8 @@ function CartDrawer({ items, onClose, onRemoveFromCart }) {
         {items.length > 0 ? (
           [
             <div className="cartItems">
-              {items.map((item, index) => (
-                <div className="cartItem d-flex align-center">
+              {items.map((item) => (
+                <div key={item.id} className="cartItem d-flex align-center">
                   <div className="cartItemImg" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
                   <div className="mr-20 flex">
                     <p className="mb-5">{item.title}</p>
@@ -46,11 +46,11 @@ function CartDrawer({ items, onClose, onRemoveFromCart }) {
             </div>,
           ]
         ) : (
-          <div class="cartEmpty d-flex align-center justify-center flex-column flex">
-            <img class="mb-20" width="120px" height="120px" src="/img/empty-cart.jpg" alt="Empty" />
+          <div className="cartEmpty d-flex align-center justify-center flex-column flex">
+            <img className="mb-20" width="120px" height="120px" src="/img/empty-cart.jpg" alt="Empty" />
             <h2>Корзина пустая</h2>
-            <p class="opacity-6">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-            <button onClick={onClose} class="greenBtn">
+            <p className="opacity-6">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
+            <button onClick={onClose} className="greenBtn">
               Вернуться назад <img src="/img/arrow.svg" alt="Arrow" />
             </button>
           </div>

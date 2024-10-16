@@ -14,23 +14,40 @@ function App() {
   const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items').then((res) => setItems(res.data));
-    // axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart').then((res) => setCartItems(res.data));
+    async function fetchDataForRender() {
+      const itemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items');
+      const cartItemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart');
+      // const favoritesData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites')
+
+      setCartItems(cartItemsData);
+      // setFavorite(favoritesData)
+      setItems(itemsData);
+    }
+
+    fetchDataForRender();
   }, []);
 
   const onAddToCart = (obj) => {
-    setCartItems((prev) => [...prev, obj]);
-    // axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart', obj);
+    try {
+      if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+        axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${obj.id}`);
+        setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+      } else {
+        setCartItems((prev) => [...prev, obj]);
+        axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart', obj);
+      }
+    } catch (error) {
+      alert('Не удалось добавить в корзину');
+    }
   };
 
   const onRemoveFromCart = (id) => {
-    // axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
+    axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const addToFavorite = async (obj) => {
     try {
-      axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites').then((res) => console.log(res));
       if (favorites.find((item) => item.id === obj.id)) {
         axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites/${obj.id}`);
         setFavorite((prev) => prev.filter((item) => item.id !== obj.id));
@@ -62,6 +79,7 @@ function App() {
               favorites={favorites}
               searchValue={searchValue}
               onAddToCart={onAddToCart}
+              cartItems={cartItems}
               onChangeSearchInput={onChangeSearchInput}
               addToFavorite={addToFavorite}
               setSearchValue={setSearchValue}
