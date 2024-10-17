@@ -12,16 +12,23 @@ function App() {
   const [favorites, setFavorite] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [items, setItems] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchDataForRender() {
-      const itemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items');
-      const cartItemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart');
-      // const favoritesData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites')
+      try {
+        const itemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items');
+        const cartItemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart');
+        // const favoritesData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites')
+        //  setFavorite(favoritesData)
 
-      setCartItems(cartItemsData);
-      // setFavorite(favoritesData)
-      setItems(itemsData);
+        setCartItems(cartItemsData.data);
+        setItems(itemsData.data);
+        setIsLoading(false);
+      } catch (error) {
+        alert('Ошибка при запросе данных ;(');
+        console.error(error);
+      }
     }
 
     fetchDataForRender();
@@ -83,6 +90,7 @@ function App() {
               onChangeSearchInput={onChangeSearchInput}
               addToFavorite={addToFavorite}
               setSearchValue={setSearchValue}
+              isLoading={isLoading}
             />
           }
         />

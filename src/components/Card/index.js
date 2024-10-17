@@ -2,7 +2,17 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 import styles from './Card.module.scss';
 
-function Card({ id, title, price, imageUrl, onPlus, onFavorite, liked, addedToCart, loading }) {
+function Card({
+  id = 1,
+  title = '',
+  price = 0,
+  imageUrl = '',
+  onPlus,
+  onFavorite,
+  liked = false,
+  addedToCart = false,
+  loading = true,
+}) {
   const [isAdded, setIsAddedToCart] = React.useState(addedToCart);
   const [isFavorite, setIsFavorite] = React.useState(liked);
 

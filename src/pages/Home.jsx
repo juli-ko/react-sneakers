@@ -9,7 +9,25 @@ function Home({
   onAddToCart,
   onChangeSearchInput,
   addToFavorite,
+  isLoading,
 }) {
+  const renderItems = () => {
+    return isLoading
+      ? [...Array(8)].map((item, index) => <Card key={index} onPlus={onAddToCart} onFavorite={addToFavorite} />)
+      : items
+          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+          .map((item) => (
+            <Card
+              key={item.id}
+              onPlus={onAddToCart}
+              onFavorite={addToFavorite}
+              addedToCart={cartItems.some((el) => Number(el.id) === Number(item.id))}
+              liked={favorites.some((el) => Number(el.id) === Number(item.id))}
+              loading={false}
+              {...item}
+            />
+          ));
+  };
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -22,20 +40,7 @@ function Home({
           <input placeholder="Поиск..." type="text" onChange={onChangeSearchInput} value={searchValue} />
         </div>
       </div>
-      <div className="d-flex flex-wrap">
-        {items
-          .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-          .map((item) => (
-            <Card
-              key={item.id}
-              onPlus={onAddToCart}
-              onFavorite={addToFavorite}
-              addedToCart={cartItems.some((el) => Number(el.id) === Number(item.id))}
-              liked={favorites.some((el) => Number(el.id) === Number(item.id))}
-              {...item}
-            />
-          ))}
-      </div>
+      <div className="d-flex flex-wrap">{renderItems()}</div>
     </div>
   );
 }
