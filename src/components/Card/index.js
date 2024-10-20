@@ -13,6 +13,7 @@ function Card({
   addedToCart = false,
   loading = true,
 }) {
+  console.log(title, addedToCart);
   const [isAdded, setIsAddedToCart] = React.useState(addedToCart);
   const [isFavorite, setIsFavorite] = React.useState(liked);
 

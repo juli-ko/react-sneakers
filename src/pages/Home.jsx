@@ -1,4 +1,6 @@
+import React from 'react';
 import Card from '../components/Card';
+import { AppContext } from '../App';
 
 function Home({
   items,
@@ -11,6 +13,8 @@ function Home({
   addToFavorite,
   isLoading,
 }) {
+  const { isAddedToCart } = React.useContext(AppContext);
+
   const renderItems = () => {
     return isLoading
       ? [...Array(8)].map((item, index) => <Card key={index} onPlus={onAddToCart} onFavorite={addToFavorite} />)
@@ -21,13 +25,14 @@ function Home({
               key={item.id}
               onPlus={onAddToCart}
               onFavorite={addToFavorite}
-              addedToCart={cartItems.some((el) => Number(el.id) === Number(item.id))}
+              addedToCart={isAddedToCart(item.id)}
               liked={favorites.some((el) => Number(el.id) === Number(item.id))}
               loading={false}
               {...item}
             />
           ));
   };
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
