@@ -1,19 +1,9 @@
 import React from 'react';
-import Card from '../components/Card';
 import { AppContext } from '../App';
+import Card from '../components/Card';
 
-function Home({
-  items,
-  favorites,
-  searchValue,
-  cartItems,
-  setSearchValue,
-  onAddToCart,
-  onChangeSearchInput,
-  addToFavorite,
-  isLoading,
-}) {
-  const { isAddedToCart } = React.useContext(AppContext);
+function Home({ searchValue, setSearchValue, onAddToCart, onChangeSearchInput, isLoading }) {
+  const { items, favorites, addToFavorite } = React.useContext(AppContext);
 
   const renderItems = () => {
     return isLoading
@@ -25,7 +15,6 @@ function Home({
               key={item.id}
               onPlus={onAddToCart}
               onFavorite={addToFavorite}
-              addedToCart={isAddedToCart(item.id)}
               liked={favorites.some((el) => Number(el.id) === Number(item.id))}
               loading={false}
               {...item}

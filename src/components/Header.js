@@ -17,7 +17,7 @@ function Header(props) {
           <img width={18} height={18} src="/img/cart.svg" alt="cart" />
           <span className="opacity-5">1205 руб.</span>
         </li>
-        <li className="mr-30" onClick={props.onClickFav}>
+        <li className="mr-30">
           <Link to="/favorites">
             <img width={18} height={18} src="/img/heart.svg" alt="fav" />
           </Link>

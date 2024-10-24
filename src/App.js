@@ -49,17 +49,16 @@ function App() {
       alert('Не удалось добавить в корзину');
     }
   };
-
   const onRemoveFromCart = (id) => {
     axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(id)));
   };
 
   const addToFavorite = async (obj) => {
     try {
       if (favorites.find((item) => item.id === obj.id)) {
         axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites/${obj.id}`);
-        setFavorite((prev) => prev.filter((item) => item.id !== obj.id));
+        setFavorite((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
       } else {
         const { data } = await axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites', obj);
         setFavorite((prev) => [...prev, data]);
@@ -78,30 +77,26 @@ function App() {
   };
 
   return (
-    <AppContext.Provider value={{ items, cartItems, favorites, isAddedToCart }}>
+    <AppContext.Provider value={{ items, cartItems, favorites, isAddedToCart, addToFavorite }}>
       <div className="wrapper clear">
         {isCartOpened && (
           <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} onRemoveFromCart={onRemoveFromCart} />
         )}
-        <Header onClickCart={() => setCartOpened(true)} onClickFav={() => console.log('open fav')} />
+        <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route
             path="/"
             element={
               <Home
-                items={items}
-                favorites={favorites}
                 searchValue={searchValue}
                 onAddToCart={onAddToCart}
-                cartItems={cartItems}
                 onChangeSearchInput={onChangeSearchInput}
-                addToFavorite={addToFavorite}
                 setSearchValue={setSearchValue}
                 isLoading={isLoading}
               />
             }
           />
-          <Route path="/favorites" element={<Favorites onAddToCart={onAddToCart} addToFavorite={addToFavorite} />} />
+          <Route path="/favorites" element={<Favorites onAddToCart={onAddToCart} />} />
         </Routes>
       </div>
     </AppContext.Provider>
