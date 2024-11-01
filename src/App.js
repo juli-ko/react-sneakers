@@ -19,11 +19,11 @@ function App() {
   React.useEffect(() => {
     async function fetchDataForRender() {
       try {
-        const itemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/items');
-        const cartItemsData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart');
-        // const favoritesData = await axios.get('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites')
-        //  setFavorite(favoritesData)
+        const itemsData = await axios.get(`${process.env.REACT_APP_API_URL}/items`);
+        const cartItemsData = await axios.get(`${process.env.REACT_APP_API_URL}/cart`);
+        const favoritesData = await axios.get(`${process.env.REACT_APP_API_URL}/favorites`);
 
+        setFavorite(favoritesData.data);
         setCartItems(cartItemsData.data);
         setItems(itemsData.data);
         setIsLoading(false);
@@ -39,28 +39,28 @@ function App() {
   const onAddToCart = (obj) => {
     try {
       if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-        axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${obj.id}`);
+        axios.delete(`${process.env.REACT_APP_API_URL}/cart/${obj.id}`);
         setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
       } else {
         setCartItems((prev) => [...prev, obj]);
-        axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart', obj);
+        axios.post(`${process.env.REACT_APP_API_URL}/cart`, obj);
       }
     } catch (error) {
       alert('Не удалось добавить в корзину');
     }
   };
   const onRemoveFromCart = (id) => {
-    axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/cart/${id}`);
+    axios.delete(`${process.env.REACT_APP_API_URL}/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(id)));
   };
 
   const addToFavorite = async (obj) => {
     try {
       if (favorites.find((item) => item.id === obj.id)) {
-        axios.delete(`https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites/${obj.id}`);
+        axios.delete(`${process.env.REACT_APP_API_URL}/favorites/${obj.id}`);
         setFavorite((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
       } else {
-        const { data } = await axios.post('https://66ec80ec2b6cf2b89c5ea299.mockapi.io/sneakers/favorites', obj);
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/favorites`, obj);
         setFavorite((prev) => [...prev, data]);
       }
     } catch (err) {
