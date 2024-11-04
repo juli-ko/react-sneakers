@@ -1,21 +1,31 @@
 import React from 'react';
 import axios from 'axios';
-import CartInfo from './CartInfo';
-import { AppContext } from '../App';
 
-function CartDrawer({ onRemoveFromCart }) {
+import CartInfo from '../CartInfo';
+import { AppContext } from '../../App';
+import { useCart } from '../../hooks/useCart';
+
+import styles from './CartDrawer.module.scss';
+
+function CartDrawer({ onRemoveFromCart, opened }) {
   const { cartItems, setCartOpened, setCartItems } = React.useContext(AppContext);
+  const totalPrice = useCart();
+
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
   const [orderId, setOrderId] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
+
   const onClose = () => setCartOpened(false);
   const onClickOrder = async (obj) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post('/orders', cartItems);
-      axios.put('/cart', []);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/orders`, { items: cartItems });
       setOrderId(data.id);
       setIsOrderComplete(true);
+
+      cartItems.forEach(async (item) => {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/cart/${item.id}`);
+      });
       setCartItems([]);
     } catch (err) {
       console.log('Не получилось отправить заказ');
@@ -24,8 +34,8 @@ function CartDrawer({ onRemoveFromCart }) {
   };
 
   return (
-    <div className="overlay">
-      <div className="drawer">
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+      <div className={styles.drawer}>
         <h2 className="mb-30 d-flex justify-between">
           Корзина
           <div className="remove-btn" onClick={onClose}>
@@ -55,16 +65,16 @@ function CartDrawer({ onRemoveFromCart }) {
                 <li>
                   <span>Итого: </span>
                   <div></div>
-                  <b>21 498 руб.</b>
+                  <b>{totalPrice} руб.</b>
                 </li>
                 <li>
-                  <span>Налог 5%:</span>
+                  <span>Доставка :</span>
                   <div></div>
-                  <b>1 074 руб. </b>
+                  <b>{Math.round(totalPrice * 0.03)} руб. </b>
                 </li>
               </ul>
 
-              <button className="greenBtn" disabled={true} onClick={onClickOrder}>
+              <button className="greenBtn" disabled={isLoading} onClick={onClickOrder}>
                 Оформить заказ <img src="/img/arrow.svg" alt="arrow" />
               </button>
             </div>,

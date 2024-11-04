@@ -5,6 +5,7 @@ import Header from './components/Header';
 import CartDrawer from './components/CartDrawer';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import Orders from './pages/Orders';
 
 export const AppContext = React.createContext({});
 
@@ -19,16 +20,17 @@ function App() {
   React.useEffect(() => {
     async function fetchDataForRender() {
       try {
-        const itemsData = await axios.get(`${process.env.REACT_APP_API_URL}/items`);
-        const cartItemsData = await axios.get(`${process.env.REACT_APP_API_URL}/cart`);
-        const favoritesData = await axios.get(`${process.env.REACT_APP_API_URL}/favorites`);
+        const [itemsData, cartItemsData, favoritesData] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_API_URL}/items`),
+          axios.get(`${process.env.REACT_APP_API_URL}/cart`),
+          axios.get(`${process.env.REACT_APP_API_URL}/favorites`),
+        ]);
 
         setFavorite(favoritesData.data);
         setCartItems(cartItemsData.data);
         setItems(itemsData.data);
         setIsLoading(false);
       } catch (error) {
-        alert('Ошибка при запросе данных ;(');
         console.error(error);
       }
     }
@@ -50,8 +52,12 @@ function App() {
     }
   };
   const onRemoveFromCart = (id) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/cart/${id}`);
-    setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(id)));
+    try {
+      axios.delete(`${process.env.REACT_APP_API_URL}/cart/${id}`);
+      setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(id)));
+    } catch (error) {
+      alert('Не удалось удалить из корзины');
+    }
   };
 
   const addToFavorite = async (obj) => {
@@ -81,7 +87,7 @@ function App() {
       value={{ items, cartItems, favorites, isAddedToCart, addToFavorite, setCartOpened, setCartItems }}
     >
       <div className="wrapper clear">
-        {isCartOpened && <CartDrawer onRemoveFromCart={onRemoveFromCart} />}
+        <CartDrawer onRemoveFromCart={onRemoveFromCart} opened={isCartOpened} />
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route
@@ -97,6 +103,7 @@ function App() {
             }
           />
           <Route path="/favorites" element={<Favorites onAddToCart={onAddToCart} />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </div>
     </AppContext.Provider>
