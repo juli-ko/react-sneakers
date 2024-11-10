@@ -8,7 +8,7 @@ function Header(props) {
   return (
     <header className="d-flex justify-between align-center p-40	">
       <div className="headerLeft d-flex align-center">
-        <Link to="/">
+        <Link to={process.env.PUBLIC_URL + '/'}>
           <img width={40} height={40} src="img/logo.png" alt="logo" />
           <div>
             <h3 className="text-uppercase">React sneakers</h3>
@@ -22,12 +22,12 @@ function Header(props) {
           <span className="opacity-5">{totalPrice} руб.</span>
         </li>
         <li className="mr-30">
-          <Link to="/favorites">
+          <Link to={process.env.PUBLIC_URL + '/favorites'}>
             <img width={18} height={18} src="img/heart.svg" alt="fav" />
           </Link>
         </li>
         <li>
-          <Link to="/orders">
+          <Link to={process.env.PUBLIC_URL + '/orders'}>
             <img width={18} height={18} src="img/user.svg" alt="user" />
           </Link>
         </li>
