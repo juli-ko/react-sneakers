@@ -39,28 +39,28 @@ function CartDrawer({ onRemoveFromCart, opened }) {
         <h2 className="mb-30 d-flex justify-between">
           Корзина
           <div className="remove-btn" onClick={onClose}>
-            <img src="/img/btn-remove.svg" alt="Remove" />
+            <img src="img/btn-remove.svg" alt="Remove" />
           </div>
         </h2>
 
         {cartItems.length > 0 ? (
           [
-            <div className="cartItems">
+            <div className={`${styles.cartItems}`}>
               {cartItems.map((item) => (
-                <div key={item.id} className="cartItem d-flex align-center">
-                  <div className="cartItemImg" style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
+                <div key={item.id} className={`${styles.cartItem} d-flex align-center`}>
+                  <div className={`${styles.cartItemImg}`} style={{ backgroundImage: `url(${item.imageUrl})` }}></div>
                   <div className="mr-20 flex">
                     <p className="mb-5">{item.title}</p>
                     <b>{item.price} руб.</b>
                   </div>
                   <div className="remove-btn">
-                    <img src="/img/btn-remove.svg" alt="Remove" onClick={() => onRemoveFromCart(item.id)} />
+                    <img src="img/btn-remove.svg" alt="Remove" onClick={() => onRemoveFromCart(item.id)} />
                   </div>
                 </div>
               ))}
             </div>,
 
-            <div className="CartTotalBlock">
+            <div className={`${styles.CartTotalBlock}`}>
               <ul>
                 <li>
                   <span>Итого: </span>
@@ -75,7 +75,7 @@ function CartDrawer({ onRemoveFromCart, opened }) {
               </ul>
 
               <button className="greenBtn" disabled={isLoading} onClick={onClickOrder}>
-                Оформить заказ <img src="/img/arrow.svg" alt="arrow" />
+                Оформить заказ <img src="img/arrow.svg" alt="arrow" />
               </button>
             </div>,
           ]
@@ -84,14 +84,14 @@ function CartDrawer({ onRemoveFromCart, opened }) {
             onClose={onClose}
             title="Заказ оформлен!"
             description={`Ваш заказ #${orderId} скоро будет передан курьерской доставке`}
-            imageUrl="/img/complete-order.jpg"
+            imageUrl="img/complete-order.jpg"
           />
         ) : (
           <CartInfo
             onClose={onClose}
             title="Корзина пустая"
             description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
-            imageUrl="/img/empty-cart.jpg"
+            imageUrl="img/empty-cart.jpg"
           />
         )}
       </div>

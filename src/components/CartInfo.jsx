@@ -7,7 +7,7 @@ export const CartInfo = ({ onClose, title, description, imageUrl }) => {
       <h2>{title}</h2>
       <p className="opacity-6">{description}</p>
       <button onClick={onClose} className="greenBtn">
-        Вернуться назад <img src="/img/arrow.svg" alt="Arrow" />
+        Вернуться назад <img src="img/arrow.svg" alt="Arrow" />
       </button>
     </div>
   );

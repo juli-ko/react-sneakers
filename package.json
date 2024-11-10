@@ -1,12 +1,14 @@
 {
   "name": "react-sneakers",
   "version": "0.1.0",
+  "homepage": "https://juli-ko.github.io/react-sneakers/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "gh-pages": "^6.2.0",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
     "macro-css": "^1.0.5",
@@ -32,7 +34,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky",
-    "server": "json-server -w server/db.json -p 9000"
+    "server": "json-server -w server/db.json -p 9000",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
