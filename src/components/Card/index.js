@@ -6,13 +6,14 @@ import styles from './Card.module.scss';
 function Card({ id = 1, title = '', price = 0, imageUrl = '', onPlus, onFavorite, liked = false, loading = true }) {
   const { isAddedToCart } = React.useContext(AppContext);
   const [isFavorite, setIsFavorite] = React.useState(liked);
+  const itemObj = { id, title, imageUrl, price };
 
   const onClickPlus = () => {
-    onPlus({ id, title, imageUrl, price });
+    onPlus(itemObj);
   };
 
   const onClickFavorite = () => {
-    onFavorite({ id, title, imageUrl, price });
+    onFavorite(itemObj);
     setIsFavorite(!isFavorite);
   };
 
@@ -36,11 +37,7 @@ function Card({ id = 1, title = '', price = 0, imageUrl = '', onPlus, onFavorite
       ) : (
         <>
           <div className={styles.favorite}>
-            <img
-              src={isFavorite ? '/img/liked.svg' : '/img/unliked.svg'}
-              onClick={() => onClickFavorite()}
-              alt="liked"
-            />
+            <img src={isFavorite ? 'img/liked.svg' : 'img/unliked.svg'} onClick={() => onClickFavorite()} alt="liked" />
           </div>
           <img width={133} height={122} src={imageUrl} alt="Sneakers" />
           <h5>{title}</h5>
@@ -53,7 +50,7 @@ function Card({ id = 1, title = '', price = 0, imageUrl = '', onPlus, onFavorite
               <img
                 className={styles.plus}
                 onClick={() => onClickPlus()}
-                src={isAddedToCart(id) ? '/img/btn-checked.svg' : '/img/btn-plus.svg'}
+                src={isAddedToCart(id) ? 'img/btn-checked.svg' : 'img/btn-plus.svg'}
                 alt="plus"
               />
             )}
