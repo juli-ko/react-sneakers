@@ -1,6 +1,6 @@
 # React Sneakers
 
-Учебный проект "React Sneakers" — это онлайн-магазин кроссовок, разработанный с использованием JavaScript и React. Проект был создан по видео-уроку [на YouTube](https://www.youtube.com/watch?v=C_3ZT7j1_jc&list=PL0FGkDGJQjJEos_0yVkbKjsQ9zGVy3dG7) и развернут на GitHub Pages по [этой ссылке](https://juli-ko.github.io/react-sneakers/).
+Учебный проект "React Sneakers" — это онлайн-магазин кроссовок, разработанный с использованием JavaScript и React. Проект был создан по видео-уроку [Archakov Blog на YouTube](https://www.youtube.com/watch?v=C_3ZT7j1_jc&list=PL0FGkDGJQjJEos_0yVkbKjsQ9zGVy3dG7) и развернут на GitHub Pages по [этой ссылке](https://juli-ko.github.io/react-sneakers/).
 
 ## Функционал
 - Просмотр каталога кроссовок
